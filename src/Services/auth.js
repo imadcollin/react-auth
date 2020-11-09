@@ -1,11 +1,11 @@
 const Auth = {
   isAuthenticated: false,
   Authenticate(cb) {
-    this.Authenticate = true;
+    this.isAuthenticated = true;
     setTimeout(cb, 100);
   },
   logout(cb) {
-    this.Authenticate = false;
+    this.isAuthenticated = false;
     setTimeout(cb, 100);
   },
 };

@@ -1,11 +1,12 @@
 import Login from "./Components/login";
 import Logout from "./Components/logout";
-import Auth from "./Services/auth"
+import Auth from "./Services/auth";
 import {
   BrowserRouter as Router,
   Route,
   Link,
   Redirect,
+  withRouter,
 } from "react-router-dom";
 
 function App() {
@@ -18,10 +19,31 @@ function App() {
   }
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
-  
-    <Route {...rest} render={(props) => !Auth.Authenticate? <Component path="/protect"/>:<Redirect to="/login" /> } />
+    <Route
+      {...rest}
+      render={(props) =>
+        Auth.isAuthenticated ? (
+          <Component path="/protect" />
+        ) : (
+          <Redirect to="/login" />
+        )
+      }
+    />
   );
 
+  const Logging = withRouter(({ history }) => {
+
+    return Auth.isAuthenticated ? (
+      <p>
+        welcome{" "}
+        <button onClick={() => Auth.logout(() => history.push("/home"))}>
+          Logout
+        </button>{" "}
+      </p>
+    ) : (
+      <p>Please Log In for Access </p>
+    );
+  });
   return (
     <div className="App">
       <h1>React Auth</h1>
@@ -32,6 +54,7 @@ function App() {
               <li>
                 <Link to="/home">Public</Link>
               </li>
+              <Logging />
               <li>
                 <Link to="/login">Login</Link>
               </li>
@@ -46,9 +69,6 @@ function App() {
           <PrivateRoute path="/protect" component={Protect} />
         </div>
       </Router>
-
-      {/* <Login></Login>
-      <Logout></Logout> */}
     </div>
   );
 }
