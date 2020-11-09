@@ -1,6 +1,6 @@
 import Login from "./Components/login";
 import Logout from "./Components/logout";
-
+import Auth from "./Services/auth"
 import {
   BrowserRouter as Router,
   Route,
@@ -18,7 +18,8 @@ function App() {
   }
 
   const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest} render={(props) => <Redirect to="/login" />} />
+  
+    <Route {...rest} render={(props) => !Auth.Authenticate? <Component path="/protect"/>:<Redirect to="/login" /> } />
   );
 
   return (

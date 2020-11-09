@@ -9,3 +9,5 @@ const Auth = {
     setTimeout(cb, 100);
   },
 };
+
+module.exports= Auth; 

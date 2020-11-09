@@ -1,6 +1,10 @@
 import React, { useState } from "react";
+import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
-const  Login= ()=> {
+const Login = () => {
+  let history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -10,30 +14,35 @@ const  Login= ()=> {
 
   function handleSubmit(event) {
     event.preventDefault();
+    if (email === "test" && password === "test") {
+      history.push("/home");
+      return <Redirect to="/home" />;
+    } else history.push("/login");
+    return <Redirect to="/login" />;
   }
 
   return (
     <div className="Login">
       <form onSubmit={handleSubmit}>
-          <label>Email</label>
-          <input
-            autoFocus
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-          <label>Password</label>
-          <input
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            type="password"
-          />
-        <button  disabled={!validateForm()} type="submit">
+        <label>Email</label>
+        <input
+          autoFocus
+          type="text"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Password</label>
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          type="password"
+        />
+        <button disabled={!validateForm()} type="submit">
           Login
         </button>
       </form>
     </div>
   );
-}
+};
 
-export default Login 
+export default Login;
