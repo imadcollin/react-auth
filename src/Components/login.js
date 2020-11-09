@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-
+import Auth from "../Services/auth";
 const Login = () => {
   let history = useHistory();
 
@@ -14,9 +14,13 @@ const Login = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+
     if (email === "test" && password === "test") {
+
+      Auth.isAuthenticated = true;
       history.push("/home");
       return <Redirect to="/home" />;
+
     } else history.push("/login");
     return <Redirect to="/login" />;
   }
